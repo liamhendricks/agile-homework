@@ -1,0 +1,9 @@
+version: "3.5"
+
+services:
+  api:
+    image: starwars-data-proxy:api-dev
+    command: ./api root
+    volumes:
+    - ./:/home/liam/Workspace/agile-homework
+    working_dir: "/home/liam/Workspace/agile-homework"
