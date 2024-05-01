@@ -1,8 +1,8 @@
 package cmd
 
 import (
-  "fmt"
   "github.com/spf13/cobra"
+  "github.com/spf13/viper"
 )
 
 var RootCommand = &cobra.Command{
@@ -11,5 +11,5 @@ var RootCommand = &cobra.Command{
 }
 
 func init() {
-  fmt.Println("root init")
+  viper.AutomaticEnv()
 }

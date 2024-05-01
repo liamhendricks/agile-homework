@@ -1,9 +1,12 @@
-version: "3.5"
-
 services:
   api:
     image: starwars-data-proxy:api-dev
-    command: ./api root
+    command: ./api server
+    network_mode: "host"
     volumes:
-    - ./:/home/liam/Workspace/agile-homework
-    working_dir: "/home/liam/Workspace/agile-homework"
+    - ./:/app
+    working_dir: "/app"
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
