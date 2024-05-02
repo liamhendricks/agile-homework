@@ -13,3 +13,10 @@ func GetConfig() Config {
     BaseUrl: viper.GetString("BASE_URL"),
   }
 }
+
+func GetTestConfig() Config {
+  return Config{
+    HttpPort: ":80",
+    BaseUrl: "localhost",
+  }
+}
