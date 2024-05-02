@@ -1,19 +1,23 @@
 package app
 
 import (
-  "context"
-  "agile-homework/src/clients/swapi/models"
+	"agile-homework/src/clients/swapi"
+	"agile-homework/src/clients/swapi/models"
+	"context"
 )
 
 type ServiceContainer struct {
-  config Config
+  Config Config
   SwapiClient SwapiClient
 }
 
 type SwapiClient interface {
-  Characters(ctx context.Context, query string) ([]models.Character, error)
+  Characters(ctx context.Context, query string) (swapi.SwapiResponse[models.Character], error)
+  Planet(ctx context.Context, id string) (models.Planet, error)
+  Species(ctx context.Context, id string) (models.Species, error)
+  Starship(ctx context.Context, id string) (models.Starship, error)
 }
 
 func GetApp(config Config) *ServiceContainer {
-  return &ServiceContainer{config: config}
+  return &ServiceContainer{Config: config}
 }

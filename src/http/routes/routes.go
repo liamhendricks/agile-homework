@@ -8,13 +8,25 @@ import (
 )
 
 func Init(router *gin.Engine, container *app.ServiceContainer) {
-  characterController := controllers.NewCharacterController(container.SwapiClient)
+  characterController := controllers.NewCharacterController(container.Config, container.SwapiClient)
+  planetController := controllers.NewPlanetController(container.Config, container.SwapiClient)
+  speciesController := controllers.NewSpeciesController(container.Config, container.SwapiClient)
+  starshipsController := controllers.NewStarshipController(container.Config, container.SwapiClient)
 
   router.GET("/health", health()) 
 
   api := router.Group("/api")
   characterRoutes := api.Group("/characters")
-  characterRoutes.GET("/all", characterController.GetAllCharacters)
+  characterRoutes.GET("", characterController.GetAllCharacters)
+
+  planetRoutes := api.Group("/planets")
+  planetRoutes.GET(":id", planetController.GetPlanet)
+
+  speciesRoutes := api.Group("/species")
+  speciesRoutes.GET(":id", speciesController.GetSpecies)
+
+  starshipRoutes := api.Group("/starships")
+  starshipRoutes.GET(":id", starshipsController.GetStarship)
 }
 
 func health() gin.HandlerFunc {
