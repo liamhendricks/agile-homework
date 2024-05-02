@@ -1,10 +1,12 @@
 package cmd
 
 import (
-  "github.com/gin-gonic/gin"
-  "github.com/spf13/cobra"
-  "agile-homework/src/app"
-  "agile-homework/src/http/routes"
+	"agile-homework/src/app"
+	clients "agile-homework/src/clients/swapi"
+	"agile-homework/src/http/routes"
+
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -17,6 +19,7 @@ var serverCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
     config := app.GetConfig()
     container := app.GetApp(config)
+    container.SwapiClient = clients.NewSwapiClient()
 
 		gin.SetMode(gin.DebugMode)
 		router := gin.New()
