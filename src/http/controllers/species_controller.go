@@ -30,7 +30,7 @@ func (cc *SpeciesController) GetSpecies(c *gin.Context) {
 		return
   }
 
-	res, err := cc.swapiClient.Starship(c, id)
+	res, err := cc.swapiClient.Species(c, id)
 	if err != nil {
 		var notFoundErr swapi.SwapiNotFoundError
 		if errors.As(err, &notFoundErr) {

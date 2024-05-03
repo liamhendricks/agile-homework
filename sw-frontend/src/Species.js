@@ -22,7 +22,7 @@ export default function Species({ id }) {
     return (
       <div>
         <h2>
-          {data.name}
+          Species: {data.name}
         </h2>
       </div>
     )

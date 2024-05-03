@@ -8,6 +8,8 @@ function App() {
   const [search, setSearch] = useState("")
   const [page, setPage] = useState("")
 
+  function handleSubmit(event) {}
+
   function handleChange(event) {
     setSearch(event.target.value);
   }
@@ -22,7 +24,7 @@ function App() {
         </form>
         <Character search={search} page={page} />
       </header>
-      <footer>If I had more time I would have added pagination, but you get the idea. Pls Hire me I'm cool thanks.</footer>
+      <footer>If I had more time I would have added pagination and made it look pretty, but you get the idea. Pls Hire me I'm cool thanks.</footer>
     </div>
   );
 }
