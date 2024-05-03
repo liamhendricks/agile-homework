@@ -25,6 +25,59 @@ func setup(swapiClient app.SwapiClient) (*gin.Engine, *app.ServiceContainer) {
   return e, container
 }
 
+func TestCharacterControllerAsync(t *testing.T) {
+  n := "next"
+  sc := &mocks.MockSwapiClient{
+    ExpectedCharacters: swapi.SwapiResponse[models.Character]{
+      Next: &n,
+      Results: []models.Character{
+        {
+          Name: "foo",
+          Homeworld: "1/",
+          Species: []string{
+            "1/",
+          },
+          Starship: []string{
+            "1/",
+          },
+        },
+        {
+          Name: "bar",
+          Homeworld: "2/",
+          Species: []string{
+            "1/",
+            "2/",
+          },
+          Starship: []string{},
+        },
+        {
+          Name: "baz",
+          Homeworld: "3/",
+          Species: []string{},
+          Starship: []string{
+            "1/",
+            "2/",
+          },
+        },
+      },
+    },
+  }
+
+  router, container := setup(sc)
+  routes.Init(router, container)
+
+  req, err := http.NewRequest(http.MethodGet, "/api/characters/preload", nil)
+  if err != nil {
+      t.Fatalf("error creating request: %v\n", err)
+  }
+  w := httptest.NewRecorder()
+  router.ServeHTTP(w, req)
+
+  if w.Code != http.StatusOK {
+    t.Fatalf("asdf: %d\n", w.Code)
+  }
+}
+
 func TestCharacterController(t *testing.T) {
   n := "next"
   sc := &mocks.MockSwapiClient{
@@ -76,7 +129,6 @@ func TestCharacterController(t *testing.T) {
   if w.Code != http.StatusOK {
     t.Fatalf("asdf: %d\n", w.Code)
   }
-
 }
 
 func TestPlanetController(t *testing.T) {

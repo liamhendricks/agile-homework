@@ -64,11 +64,11 @@ func TestSwapiResponseUnmarshal(t *testing.T) {
     t.Fatal("bad decode")
   }
 
-  if swapiResponse.Results[0].Starship[0] != "12/" {
+  if swapiResponse.Results[0].Starship[0] != "12" {
     t.Fatal("bad decode")
   }
 
-  if swapiResponse.Results[0].Homeworld != "1/" {
+  if swapiResponse.Results[0].Homeworld != "1" {
     t.Fatal("bad decode")
   }
 }

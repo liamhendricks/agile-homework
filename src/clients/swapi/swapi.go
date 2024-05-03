@@ -25,16 +25,20 @@ func NewSwapiClient() *SwapiClient {
 }
 
 type SwapiResponse[G models.Gettable] struct {
-	Count   int     `json:"count"`
-	Next    *string `json:"next"`
-	Results []G     `json:"results"`
+	Count    int     `json:"count"`
+	Next     *string `json:"next"`
+	Previous *string `json:"previous"`
+	Results  []G     `json:"results"`
 }
 
 // retrieves all characters from the swapi api by search term
-func (c *SwapiClient) Characters(ctx context.Context, query string) (SwapiResponse[models.Character], error) {
+func (c *SwapiClient) Characters(ctx context.Context, search, page string) (SwapiResponse[models.Character], error) {
 	var swapiResponse SwapiResponse[models.Character]
 
-	url := fmt.Sprintf("%s%s?search=%s", c.baseUrl, models.AllCharactersPath, query)
+	url := fmt.Sprintf("%s%s?search=%s", c.baseUrl, models.AllCharactersPath, search)
+  if page != "" {
+    url = fmt.Sprintf("%s%s", url, page)
+  }
 
 	res, err := c.getResponse(ctx, url)
 	if err != nil {
@@ -87,7 +91,7 @@ func (c *SwapiClient) Planet(ctx context.Context, id string) (models.Planet, err
 func (c *SwapiClient) Species(ctx context.Context, id string) (models.Species, error) {
 	var speciesResponse models.Species
 
-	url := fmt.Sprintf("%s%s%s", c.baseUrl, models.AllPlanetsPath, id)
+	url := fmt.Sprintf("%s%s%s", c.baseUrl, models.AllSpeciesPath, id)
 	res, err := c.getResponse(ctx, url)
 	if err != nil {
 		return speciesResponse, fmt.Errorf("error getting data: %w", err)
@@ -106,7 +110,7 @@ func (c *SwapiClient) Species(ctx context.Context, id string) (models.Species, e
 func (c *SwapiClient) Starship(ctx context.Context, id string) (models.Starship, error) {
 	var starshipResponse models.Starship
 
-	url := fmt.Sprintf("%s%s%s", c.baseUrl, models.AllPlanetsPath, id)
+	url := fmt.Sprintf("%s%s%s", c.baseUrl, models.AllStarshipsPath, id)
 	res, err := c.getResponse(ctx, url)
 	if err != nil {
 		return starshipResponse, fmt.Errorf("error getting data: %w", err)

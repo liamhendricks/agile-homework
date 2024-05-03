@@ -9,6 +9,6 @@ const (
 )
 
 type Gettable interface {
-  Character | Planet | Species | Starship
+  Character | PreloadedCharacter | Planet | Species | Starship
 }
 

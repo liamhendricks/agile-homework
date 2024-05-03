@@ -1,2 +1,3 @@
 vendor/*
+sw-frontend/node_modules/*
 api

@@ -15,7 +15,7 @@ type MockSwapiClient struct {
   ExpectedErr error
 }
 
-func (ms *MockSwapiClient) Characters(ctx context.Context, query string) (swapi.SwapiResponse[models.Character], error) {
+func (ms *MockSwapiClient) Characters(ctx context.Context, search, page string) (swapi.SwapiResponse[models.Character], error) {
   return ms.ExpectedCharacters, ms.ExpectedErr
 }
 func (ms *MockSwapiClient) Planet(ctx context.Context, id string) (models.Planet, error) {

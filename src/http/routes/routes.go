@@ -18,6 +18,7 @@ func Init(router *gin.Engine, container *app.ServiceContainer) {
   api := router.Group("/api")
   characterRoutes := api.Group("/characters")
   characterRoutes.GET("", characterController.GetAllCharacters)
+  characterRoutes.GET("/preload", characterController.PreloadCharacterData)
 
   planetRoutes := api.Group("/planets")
   planetRoutes.GET(":id", planetController.GetPlanet)
