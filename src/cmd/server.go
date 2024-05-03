@@ -6,6 +6,7 @@ import (
 	"agile-homework/src/http/routes"
 
 	"github.com/gin-gonic/gin"
+  "github.com/gin-contrib/cors"
 	"github.com/spf13/cobra"
 )
 
@@ -22,8 +23,10 @@ var serverCommand = &cobra.Command{
     container.SwapiClient = swapi.NewSwapiClient()
 
 		gin.SetMode(gin.DebugMode)
-		router := gin.New()
+		router := gin.Default()
+    router.Use(cors.Default())
 		routes.Init(router, container)
+
 
     err := router.Run(config.HttpPort)
 		if err != nil {
