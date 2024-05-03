@@ -59,11 +59,21 @@ func (c *SwapiClient) Characters(ctx context.Context, search, page string) (Swap
 		}
 	}
 
-	*swapiResponse.Next = strings.Replace(
-		*swapiResponse.Next,
-		models.SwapiBaseUrl+models.AllCharactersPath,
-		"",
-		1)
+  if swapiResponse.Next != nil {
+    *swapiResponse.Next = strings.Replace(
+      *swapiResponse.Next,
+      models.SwapiBaseUrl+models.AllCharactersPath,
+      "",
+      1)
+  }
+
+  if swapiResponse.Previous != nil {
+    *swapiResponse.Previous = strings.Replace(
+      *swapiResponse.Previous,
+      models.SwapiBaseUrl+models.AllCharactersPath,
+      "",
+      1)
+  }
 
 	return swapiResponse, nil
 }
