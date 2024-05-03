@@ -24,6 +24,8 @@ export default function Species({ id }) {
         <h2>
           Species: {data.name}
         </h2>
+        <p>Avg Lifespan: {data.average_lifespan}</p>
+        <p>Language: {data.language}</p>
       </div>
     )
   } else {

@@ -22,6 +22,8 @@ export default function Planet({ id }) {
         <h2>
           Homeworld: {data.name}
         </h2>
+        <p>Population: {data.population}</p>
+        <p>Climate: {data.climate}</p>
       </div>
     )
   } else {
