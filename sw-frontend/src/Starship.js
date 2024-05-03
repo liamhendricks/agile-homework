@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const baseUrl = "http://localhost:8080/"
-const starshipUrl = baseUrl + "api/species/"
+const starshipUrl = baseUrl + "api/starships/"
 
 export default function Starship({ id }) {
   const [data, setData] = useState(null);
