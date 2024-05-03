@@ -49,13 +49,13 @@ func (cc *CharacterController) GetAllCharacters(c *gin.Context) {
 	}
 
 	// add our proxy urls as the pagination
-  if res.Next != nil {
-    *res.Next = fmt.Sprintf("%s%s%s", cc.config.BaseUrl, baseCharacterPath, *res.Next)
-  }
+	if res.Next != nil {
+		*res.Next = fmt.Sprintf("%s%s%s", cc.config.BaseUrl, baseCharacterPath, *res.Next)
+	}
 
-  if res.Previous != nil {
-    *res.Previous = fmt.Sprintf("%s%s%s", cc.config.BaseUrl, baseCharacterPath, *res.Previous)
-  }
+	if res.Previous != nil {
+		*res.Previous = fmt.Sprintf("%s%s%s", cc.config.BaseUrl, baseCharacterPath, *res.Previous)
+	}
 
 	c.JSON(http.StatusOK, res)
 	return
@@ -65,7 +65,7 @@ func (cc *CharacterController) GetAllCharacters(c *gin.Context) {
 func (cc *CharacterController) PreloadCharacterData(c *gin.Context) {
 	search, _ := c.GetQuery("search")
 	page, _ := c.GetQuery("page")
-  var preloadedResp swapi.SwapiResponse[models.PreloadedCharacter]
+	var preloadedResp swapi.SwapiResponse[models.PreloadedCharacter]
 
 	res, err := cc.swapiClient.Characters(c, search, page)
 	if err != nil {
@@ -78,51 +78,51 @@ func (cc *CharacterController) PreloadCharacterData(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err)
 		return
 	}
-  preloadedResp.Next = res.Next
-  preloadedResp.Count = res.Count
-  preloadedResp.Results = cc.preloadCharacterData(c, res)
+	preloadedResp.Next = res.Next
+	preloadedResp.Count = res.Count
+	preloadedResp.Results = cc.preloadCharacterData(c, res)
 
-  c.JSON(http.StatusOK, preloadedResp)
-  return
+	c.JSON(http.StatusOK, preloadedResp)
+	return
 }
 
 func (cc *CharacterController) preloadCharacterData(
-  c *gin.Context,
-  data swapi.SwapiResponse[models.Character],
+	c *gin.Context,
+	data swapi.SwapiResponse[models.Character],
 ) []models.PreloadedCharacter {
-  var results []models.PreloadedCharacter
-  pcc := make(chan models.PreloadedCharacter) 
-  for _, character := range data.Results {
-    go cc.fetchCharacterDataAsync(c, character, pcc)
-  }
+	var results []models.PreloadedCharacter
+	pcc := make(chan models.PreloadedCharacter)
+	for _, character := range data.Results {
+		go cc.fetchCharacterDataAsync(c, character, pcc)
+	}
 
-  // read the results from the channel
-  for result := range pcc {
-    results = append(results, result)
-    if len(results) == len(data.Results) {
-      close(pcc)
-    }
-  }
+	// read the results from the channel
+	for result := range pcc {
+		results = append(results, result)
+		if len(results) == len(data.Results) {
+			close(pcc)
+		}
+	}
 
-  return results
+	return results
 }
 
 func (cc *CharacterController) fetchCharacterDataAsync(
-  c *gin.Context,
-  char models.Character,
-  result chan models.PreloadedCharacter,
+	c *gin.Context,
+	char models.Character,
+	result chan models.PreloadedCharacter,
 ) {
-  var preloadedCharacter models.PreloadedCharacter
-  preloadedCharacter.Homeworld, _ = cc.swapiClient.Planet(c, char.Homeworld)
+	var preloadedCharacter models.PreloadedCharacter
+	preloadedCharacter.Homeworld, _ = cc.swapiClient.Planet(c, char.Homeworld)
 
-  for _, id := range char.Species {
-    s, _ := cc.swapiClient.Species(c, id)
-    preloadedCharacter.Species = append(preloadedCharacter.Species, s)
-  }
-  for _, id := range char.Starship {
-    s, _ := cc.swapiClient.Starship(c, id)
-    preloadedCharacter.Starship = append(preloadedCharacter.Starship, s)
-  }
-  result <- preloadedCharacter
-  return
+	for _, id := range char.Species {
+		s, _ := cc.swapiClient.Species(c, id)
+		preloadedCharacter.Species = append(preloadedCharacter.Species, s)
+	}
+	for _, id := range char.Starship {
+		s, _ := cc.swapiClient.Starship(c, id)
+		preloadedCharacter.Starship = append(preloadedCharacter.Starship, s)
+	}
+	result <- preloadedCharacter
+	return
 }

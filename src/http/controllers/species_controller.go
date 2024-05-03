@@ -1,11 +1,11 @@
 package controllers
 
-import(
-  "errors"
-  "net/http"
+import (
+	"errors"
+	"net/http"
 
-  "agile-homework/src/app"
-  "agile-homework/src/clients/swapi"
+	"agile-homework/src/app"
+	"agile-homework/src/clients/swapi"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,13 +22,12 @@ func NewSpeciesController(c app.Config, sc app.SwapiClient) *SpeciesController {
 	}
 }
 
-
 func (cc *SpeciesController) GetSpecies(c *gin.Context) {
 	id := c.Param("id")
-  if id == "" {
+	if id == "" {
 		c.JSON(http.StatusBadRequest, errors.New("bad request"))
 		return
-  }
+	}
 
 	res, err := cc.swapiClient.Species(c, id)
 	if err != nil {
@@ -42,6 +41,6 @@ func (cc *SpeciesController) GetSpecies(c *gin.Context) {
 		return
 	}
 
-  c.JSON(http.StatusOK, res)
-  return
+	c.JSON(http.StatusOK, res)
+	return
 }

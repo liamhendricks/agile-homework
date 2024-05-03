@@ -10,5 +10,5 @@ type SwapiNotFoundError struct {
 }
 
 func (e SwapiNotFoundError) Error() string {
-  return e.Msg
+	return e.Msg
 }

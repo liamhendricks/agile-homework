@@ -36,9 +36,9 @@ func (c *SwapiClient) Characters(ctx context.Context, search, page string) (Swap
 	var swapiResponse SwapiResponse[models.Character]
 
 	url := fmt.Sprintf("%s%s?search=%s", c.baseUrl, models.AllCharactersPath, search)
-  if page != "" {
-    url = fmt.Sprintf("%s%s", url, page)
-  }
+	if page != "" {
+		url = fmt.Sprintf("%s%s", url, page)
+	}
 
 	res, err := c.getResponse(ctx, url)
 	if err != nil {
@@ -59,21 +59,21 @@ func (c *SwapiClient) Characters(ctx context.Context, search, page string) (Swap
 		}
 	}
 
-  if swapiResponse.Next != nil {
-    *swapiResponse.Next = strings.Replace(
-      *swapiResponse.Next,
-      models.SwapiBaseUrl+models.AllCharactersPath,
-      "",
-      1)
-  }
+	if swapiResponse.Next != nil {
+		*swapiResponse.Next = strings.Replace(
+			*swapiResponse.Next,
+			models.SwapiBaseUrl+models.AllCharactersPath,
+			"",
+			1)
+	}
 
-  if swapiResponse.Previous != nil {
-    *swapiResponse.Previous = strings.Replace(
-      *swapiResponse.Previous,
-      models.SwapiBaseUrl+models.AllCharactersPath,
-      "",
-      1)
-  }
+	if swapiResponse.Previous != nil {
+		*swapiResponse.Previous = strings.Replace(
+			*swapiResponse.Previous,
+			models.SwapiBaseUrl+models.AllCharactersPath,
+			"",
+			1)
+	}
 
 	return swapiResponse, nil
 }

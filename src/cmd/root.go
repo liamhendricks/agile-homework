@@ -1,15 +1,15 @@
 package cmd
 
 import (
-  "github.com/spf13/cobra"
-  "github.com/spf13/viper"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var RootCommand = &cobra.Command{
-    Use:   "api",
-    Short: "Root command for api.",
+	Use:   "api",
+	Short: "Root command for api.",
 }
 
 func init() {
-  viper.AutomaticEnv()
+	viper.AutomaticEnv()
 }

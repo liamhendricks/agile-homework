@@ -1,9 +1,8 @@
 package controllers
 
 import (
-
 	"errors"
-  "net/http"
+	"net/http"
 
 	"agile-homework/src/app"
 	"agile-homework/src/clients/swapi"
@@ -25,10 +24,10 @@ func NewPlanetController(c app.Config, sc app.SwapiClient) *PlanetController {
 
 func (cc *PlanetController) GetPlanet(c *gin.Context) {
 	id := c.Param("id")
-  if id == "" {
+	if id == "" {
 		c.JSON(http.StatusBadRequest, errors.New("bad request"))
 		return
-  }
+	}
 
 	res, err := cc.swapiClient.Planet(c, id)
 	if err != nil {
@@ -42,6 +41,6 @@ func (cc *PlanetController) GetPlanet(c *gin.Context) {
 		return
 	}
 
-  c.JSON(http.StatusOK, res)
-  return
+	c.JSON(http.StatusOK, res)
+	return
 }

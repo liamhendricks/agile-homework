@@ -3,20 +3,20 @@ package app
 import "github.com/spf13/viper"
 
 type Config struct {
-  HttpPort string
-  BaseUrl string
+	HttpPort string
+	BaseUrl  string
 }
 
 func GetConfig() Config {
-  return Config{
-    HttpPort: viper.GetString("HTTP_PORT"),
-    BaseUrl: viper.GetString("BASE_URL"),
-  }
+	return Config{
+		HttpPort: viper.GetString("HTTP_PORT"),
+		BaseUrl:  viper.GetString("BASE_URL"),
+	}
 }
 
 func GetTestConfig() Config {
-  return Config{
-    HttpPort: ":80",
-    BaseUrl: "localhost",
-  }
+	return Config{
+		HttpPort: ":80",
+		BaseUrl:  "localhost",
+	}
 }

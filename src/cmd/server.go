@@ -5,8 +5,8 @@ import (
 	"agile-homework/src/clients/swapi"
 	"agile-homework/src/http/routes"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-  "github.com/gin-contrib/cors"
 	"github.com/spf13/cobra"
 )
 
@@ -18,17 +18,16 @@ var serverCommand = &cobra.Command{
 	Use:   "server",
 	Short: "Runs the gin server.",
 	Run: func(cmd *cobra.Command, args []string) {
-    config := app.GetConfig()
-    container := app.GetApp(config)
-    container.SwapiClient = swapi.NewSwapiClient()
+		config := app.GetConfig()
+		container := app.GetApp(config)
+		container.SwapiClient = swapi.NewSwapiClient()
 
 		gin.SetMode(gin.DebugMode)
 		router := gin.Default()
-    router.Use(cors.Default())
+		router.Use(cors.Default())
 		routes.Init(router, container)
 
-
-    err := router.Run(config.HttpPort)
+		err := router.Run(config.HttpPort)
 		if err != nil {
 			panic(err)
 		}

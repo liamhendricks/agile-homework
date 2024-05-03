@@ -45,30 +45,30 @@ const testJson = `
 }`
 
 func TestSwapiResponseUnmarshal(t *testing.T) {
-  var swapiResponse SwapiResponse[models.Character]
+	var swapiResponse SwapiResponse[models.Character]
 
-  err := json.Unmarshal([]byte(testJson), &swapiResponse)
-  if err != nil {
-    t.Fatal("error during unmarshal")
-  }
+	err := json.Unmarshal([]byte(testJson), &swapiResponse)
+	if err != nil {
+		t.Fatal("error during unmarshal")
+	}
 
-  if len(swapiResponse.Results) == 0 {
-    t.Fatal("no results")
-  }
+	if len(swapiResponse.Results) == 0 {
+		t.Fatal("no results")
+	}
 
-  if swapiResponse.Results[0].Name != "Luke Skywalker" {
-    t.Fatal("bad name")
-  }
+	if swapiResponse.Results[0].Name != "Luke Skywalker" {
+		t.Fatal("bad name")
+	}
 
-  if len(swapiResponse.Results[0].Starship) == 0 {
-    t.Fatal("bad decode")
-  }
+	if len(swapiResponse.Results[0].Starship) == 0 {
+		t.Fatal("bad decode")
+	}
 
-  if swapiResponse.Results[0].Starship[0] != "12" {
-    t.Fatal("bad decode")
-  }
+	if swapiResponse.Results[0].Starship[0] != "12" {
+		t.Fatal("bad decode")
+	}
 
-  if swapiResponse.Results[0].Homeworld != "1" {
-    t.Fatal("bad decode")
-  }
+	if swapiResponse.Results[0].Homeworld != "1" {
+		t.Fatal("bad decode")
+	}
 }

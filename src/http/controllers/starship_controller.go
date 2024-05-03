@@ -1,8 +1,8 @@
 package controllers
 
-import(
+import (
 	"errors"
-  "net/http"
+	"net/http"
 
 	"agile-homework/src/app"
 	"agile-homework/src/clients/swapi"
@@ -24,10 +24,10 @@ func NewStarshipController(c app.Config, sc app.SwapiClient) *StarshipController
 
 func (cc *StarshipController) GetStarship(c *gin.Context) {
 	id := c.Param("id")
-  if id == "" {
+	if id == "" {
 		c.JSON(http.StatusBadRequest, errors.New("bad request"))
 		return
-  }
+	}
 
 	res, err := cc.swapiClient.Starship(c, id)
 	if err != nil {
@@ -41,6 +41,6 @@ func (cc *StarshipController) GetStarship(c *gin.Context) {
 		return
 	}
 
-  c.JSON(http.StatusOK, res)
-  return
+	c.JSON(http.StatusOK, res)
+	return
 }
